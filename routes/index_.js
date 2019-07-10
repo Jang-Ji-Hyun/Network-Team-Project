@@ -40,22 +40,24 @@ router.get('/giveDemerit',(req,res,next)=>{
 });
 
 router.get('/mySeat',(req,res,next)=>{
+  var UserId = res.query.UserId;
   MongoClient.connect(function(err,db,client){
-    db.collection('seatNumber').findOne({'id':myid},function(err,result){
-      //console.log(result);
-      name = myid;
-      if(result==null){
-        number = 0;
-      }else{
+    MongoClient.getUserByUserId(UserId,(user)=>{
+      db.collection('seatNumber').findOne({grade : user.Grade, class : user.Class, number : user.Number}, (err,result)=>{
         //console.log(result);
-        //console.log(result.number);
-        number = result.number;
-      }
-      sobj ={name:name,number:number};
-      res.render('mySeat.ejs',sobj);
+        name = myid;
+        if(result==null){
+          number = 0;
+        }else{
+          //console.log(result);
+          //console.log(result.number);
+          number = result.number;
+        }
+        sobj ={name:user.UserName,number:number};
+        res.render('mySeat.ejs',sobj);
+      });
     });
     client.close();
-  //res.render('mySeat.ejs'); 
   });
 });
 
