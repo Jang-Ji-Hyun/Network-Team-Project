@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>notebookLent</title>
+    <title>notebookCheck</title>
     
     <link rel="stylesheet" href="./css/bootstrap.css">
     <link rel="stylesheet" href="./css/bootstrap-grid.css">
@@ -58,7 +58,7 @@
     <div class="grid">
         <div class="grid_1-1"> 
             <ul class="list-group list-group-flush">
-                <li class="list-group-item"><a href="/notebookLent">노트북 대여현황 보기</a></li>
+                <li class="list-group-item"><a href="/notebookCheck">노트북 대여현황 보기</a></li>
                 <li class="list-group-item"><a href="">벌점 주기</a></li>
             </ul>
         </div>
@@ -76,24 +76,101 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <% for (var i = 0; i < resultCnt; i++) { %>
-                        <tr>
-                            <th scope="row"><%= i + 1 %></th>
-                            <% if(_name[0]=='NULL'){ %>
-                                <td>LAP1</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td>공석</td>
-                            <% }else{ %>
-                                <td>LAP1</td>
-                                <td><%=_grade[i] %>학년</td>
-                                <td><%=_class[i] %>반</td>
-                                <td><%=_num[i] %>번</td>
-                                <td><%=_name[i] %></td>
-                            <% }%>
-                        </tr>
-                    <% } %>
+                    <tr>
+                        <th scope="row">1</th>
+                        <% if(_name[0]=='NULL'){ %>
+                            <td>LAP1</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>공석</td>
+                        <% }else{ %>
+                            <td>LAP1</td>
+                            <td><%=_grade[0] %>학년</td>
+                            <td><%=_class[0] %>반</td>
+                            <td><%=_num[0] %>번</td>
+                            <td><%=_name[0] %></td>
+                        <% }%>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <% if(_name[1]=='NULL'){ %>
+                            <td>LAP1</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>공석</td>
+                        <% }else{ %>
+                            <td>LAP1</td>
+                            <td><%=_grade[1] %>학년</td>
+                            <td><%=_class[1] %>반</td>
+                            <td><%=_num[1] %>번</td>
+                            <td><%=_name[1] %></td>
+                        <% }%>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <% if(_name[2]=='NULL'){ %>
+                            <td>LAP1</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>공석</td>
+                        <% }else{ %>
+                            <td>LAP1</td>
+                            <td><%=_grade[2] %>학년</td>
+                            <td><%=_class[2] %>반</td>
+                            <td><%=_num[2] %>번</td>
+                            <td><%=_name[2] %></td>
+                        <% }%>
+                    </tr>
+                    <tr>
+                        <th scope="row">4</th>
+                        <% if(_name[3]=='NULL'){ %>
+                            <td>LAP1</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>공석</td>
+                        <% }else{ %>
+                            <td>LAP1</td>
+                            <td><%=_grade[3] %>학년</td>
+                            <td><%=_class[3] %>반</td>
+                            <td><%=_num[3] %>번</td>
+                            <td><%=_name[3] %></td>
+                        <% }%>
+                    </tr>
+                    <tr>
+                        <th scope="row">5</th>
+                        <% if(_name[4]=='NULL'){ %>
+                            <td>LAP1</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>공석</td>
+                        <% }else{ %>
+                            <td>LAP1</td>
+                            <td><%=_grade[4] %>학년</td>
+                            <td><%=_class[4] %>반</td>
+                            <td><%=_num[4] %>번</td>
+                            <td><%=_name[4] %></td>
+                        <% }%>
+                    </tr>
+                    <tr>
+                        <th scope="row">6</th>
+                        <% if(_name[5]=='NULL'){ %>
+                            <td>LAP1</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>공석</td>
+                        <% }else{ %>
+                            <td>LAP1</td>
+                            <td><%=_grade[5] %>학년</td>
+                            <td><%=_class[5] %>반</td>
+                            <td><%=_num[5] %>번</td>
+                            <td><%=_name[5] %></td>
+                        <% }%>
                     </tr>
                 </tbody>
             </table>
