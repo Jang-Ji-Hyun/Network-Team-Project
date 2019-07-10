@@ -6,7 +6,7 @@ var dbName = 'NoteBookLent';
  
 
 router.get('/', (req, res, next)=>{
-  res.render("login");
+  res.render("index");
 });
 
 router.get('/login', (req, res, next)=>{
