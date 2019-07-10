@@ -23,13 +23,6 @@ router.get('/', function(req, res, next) {
   res.render('index_', null);
 });
 
-// MongoClient.connect(url,{useNewUrlParser:true}, function(err, client){
-//   const db = client.db(dbName);
-
-//   var seatObject = {}
-//   db.collection('seatNumber').insertOne();
-  
-// });
 
 router.get('/notebookCheck',(req,res,next)=>{
   MongoClient.connect(url,{useNewUrlParser:true}, function(err, client){
