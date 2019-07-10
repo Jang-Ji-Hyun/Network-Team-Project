@@ -10,21 +10,38 @@ router.get('/', (req, res, next)=>{
   res.render("index");
 });
 
-router.get('/login', (req, res, next)=>{
+router.get('/login_check', (req, res, next)=>{
   var Id = req.query.UserId;
   var Password = req.query.UserPassword;
   
   mongoClient.connect((err,db,client)=>{
     db.collection('User').find({UserId : Id, UserPassword : Password}).toArray((err, result)=>{
       if(result.length != 1){
-        res.render("login",{pass : true});
+        res.render("login_check",{pass : true});
       }else{
-        res.render("index");
+        res.render("notebookCheck");
       }
       client.close();
     });
   });
 });
+
+router.get('/login_lent', (req, res, next)=>{
+  var Id = req.query.UserId;
+  var Password = req.query.UserPassword;
+  
+  mongoClient.connect((err,db,client)=>{
+    db.collection('User').find({UserId : Id, UserPassword : Password}).toArray((err, result)=>{
+      if(result.length != 1){
+        res.render("login_lent",{pass : true});
+      }else{
+        res.render("notebookLent");
+      }
+      client.close();
+    });
+  });
+});
+
 
 router.get('/create', function(req, res, next) {
   
