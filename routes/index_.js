@@ -182,7 +182,7 @@ router.post('/notebookLent_Cancel',function(req,res){
         });
 
         db.collection('seatNumber').find({}).toArray(function(err,result){
-          console.log('여기는 된다 시발');
+          console.log('여기는 된다');
           console.log(result);
           for(var i=0;i<6;i++){
             _status_[i]=parseInt(result[i].status);
