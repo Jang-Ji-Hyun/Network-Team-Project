@@ -11,6 +11,11 @@ mongoClient.connect = function(callback){
     });
 }
 
-
-
+mongoClient.getUserByUserId = function(UserId, callback){
+    mongoClient.connect((err, db, client)=>{
+        db.collection("User").findOne({UserId : UserId},(err,user) => {
+            callback(user)
+        });
+    });
+}
 module.exports = mongoClient;
