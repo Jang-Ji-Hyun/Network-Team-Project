@@ -57,11 +57,12 @@
 </head>
 <body>
     <script>
-        var status = status_check;
+        var status = <%= status_check %>;
         if(status==2) alert(`취소되었습니다!`);
         if(status==4) alert(`이미 빈 자리입니다!`);
+        if(status==6) alert(`다른 사람 자리입니다!`);
     </script>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" intgrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <!--<div><img src="gsm2.png" alt=""></div>-->
     <nav class="navbar navbar-dark bg-dark">
@@ -69,7 +70,7 @@
     </nav>
     <ul class="nav justify-content-end">
         <li class="nav-item">
-        <a class="nav-link active" href="/login">LOGIN</a>
+        <a class="nav-link active" href="/Login">LOGIN</a>
         </li>
         <li class="nav-item">
         <a class="nav-link" href="/Main">LOGOUT</a>
@@ -88,6 +89,7 @@
             <ul class="list-group list-group-flush">
                 <li class="list-group-item"><a href="/notebookLent">노트북 대여 신청하기</a></li>
                 <li class="list-group-item"><a href="/notebookCancel">노트북 대여 신청 취소하기</a></li>
+                <li class="list-group-item"><a href="/mySeat">내가 신청한 자리</a></li>
                 <li class="list-group-item"><a href="">벌점 보기</a></li>
             </ul>
         </div>

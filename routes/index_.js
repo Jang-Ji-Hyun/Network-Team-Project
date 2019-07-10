@@ -10,38 +10,57 @@ var _name =[6];
 var _class=[6];
 var _grade=[6];
 var _num = [6];
-var myid = 'GSM';
+var myid = '이민준';
 var mygrade = 2 
 var myclass = 3
 var mynumber = 11
+var pass = 0;
+var cpass =0;
+
+var name;
+var number;
+
 var cancel = 'NULL';
 
 var obj={_name:_name,_grade:_grade,_class:_class,_num:_num};
+var sobj ={};
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index_', null);
+  res.render('index', null);
 });
 
-
+router.get('/mySeat',(req,res,next)=>{
+  MongoClient.connect(url,{useNewUrlParser:true},function(err,client){
+    const db =client.db(dbName);
+    db.collection('seatNumber').findOne({'id':myid},function(err,result){
+      console.log(result);
+      name = myid;
+      if(result==null){
+        number = 0;
+      }else{
+        number = result.number;
+      }
+      sobj ={name:name,number:number};
+      res.render('mySeat.ejs',sobj);
+    });
+  //res.render('mySeat.ejs'); 
+  });
+});
 router.get('/notebookCheck',(req,res,next)=>{
   MongoClient.connect(url,{useNewUrlParser:true}, function(err, client){
     const db = client.db(dbName);
-
-    db.collection('User').find({}).toArray(function(err,result){
-      if(err) console.log(err);
-      else console.log(result.length);
-      for(var i=0;i<result.length; i++){
-        _name[i]=result[i].UserName;
-        _grade[i]=result[i].Grade;
-        _class[i]=result[i].Class;
-        _num[i]=result[i].Number;
+    db.collection('seatNumber').find({}).toArray(function(err,result){
+      for(var i=0;i<6;i++){
+        _name[i]=result[i].id;
+        _grade[i]=result[i].grade;
+        _class[i]=result[i].class;
+        _num[i]=result[i].num;
       }
-      obj={resultCnt : result.length, _name:_name,_grade:_grade,_class:_class,_num:_num}
+      obj={_name:_name,_grade:_grade,_class:_class,_num:_num}
       res.render('notebookCheck.ejs',obj);
-      client.close();
     });
-    
+    client.close();
   });
 });
 
@@ -49,18 +68,18 @@ router.get('/notebookLent', (req, res, next)=>{
   MongoClient.connect(url,{useNewUrlParser:true}, function(err, client) {
     const db = client.db(dbName);
     db.collection('seatNumber').find({}).toArray(function(err,result){
-      for(var i=0;i<result.length;i++){
+      for(var i=0;i<6;i++){
         _status_[i]=parseInt(result[i].status);
         console.log(`${i+1}_status : `+_status_[i]);
       }
       status_check=0;
       obj = {_status_:_status_,status_check:status_check}
       res.render('notebookLent.ejs',obj);
-      client.close();
     });
-    
+    client.close();
   });
 });
+
 
 
 router.get('/notebookCancel', (req, res, next)=>{
@@ -84,75 +103,101 @@ router.post('/notebookLent_process',function(req,res){
   MongoClient.connect(url,{useNewUrlParser:true}, function(err, client) {
     const db = client.db(dbName);
     const snum = parseInt(req.body.seat);
-    db.collection('seatNumber').find({}).toArray(function(err,result){
-      for(var i=0;i<6;i++){
-        if(result[i].id==myid){
-          status_check=5;
-          //console.log(`${i+1} status_check => 5`);
-          //console.log(`${i+1} status_check_`+ status_check);
-          obj = {_status_:_status_,status_check:status_check,num:snum}
-          //res.render('notebookLent.ejs',obj);
-          break;
-        }
-      }
-      //res.render('notebookLent.ejs',obj);
-    });
-    console.log('status_check : '+status_check);
-
-    db.collection('seatNumber').find({}).toArray(function(err,result){
+    db.collection('seatNumber').find({}).toArray(function(err,result){  
       if(result[snum-1].status==1) {
         status_check=3;
+        pass=1;
         obj = {_status_:_status_,status_check:status_check,num:snum}
         //res.render('notebookLent.ejs',obj);
+      }else{
+        for(var i=0;i<6;i++){
+          if(result[i].id==myid){
+            //console.log('fuck my id');
+            status_check=5;
+            pass=1;
+            obj = {_status_:_status_,status_check:status_check,num:snum}
+          }
+        }
       }
-    });
-    console.log('status_check : '+status_check);
-    
-    if(status_check==3 || status_check==5) res.render('notebookLent.ejs',obj);
+      if(pass==1){
+        res.render('notebookLent.ejs',obj);
+        //console.log('이거 출력되면 시발');
+        console.log(`pass : `+pass);
+      }
+      else if(pass==0){
+        db.collection('seatNumber').updateMany({ number:snum }, 
+          { $set: { status: 1 ,id: myid,grade:mygrade,class:myclass,num:mynumber} },function(err,result){
+          if(err)console.log(err.message);
+        });
 
-    db.collection('seatNumber').updateMany({ number:snum  }, 
-      { $set: { status: 1 ,id: myid,grade:mygrade,class:myclass,num:mynumber} },function(err,result){
-      if(err)console.log(err.message);
-    });
-    db.collection('seatNumber').find({}).toArray(function(err,result){
-      for(var i=0;i<6;i++){
-        _status_[i]=parseInt(result[i].status);
+        db.collection('seatNumber').find({}).toArray(function(err,result){
+          console.log(result);
+          for(var i=0;i<6;i++){
+            _status_[i]=parseInt(result[i].status);
+          }
+          status_check=1;
+          obj = {_status_:_status_,status_check:status_check,num:snum}
+          res.render('notebookLent.ejs',obj);
+        });
       }
-      status_check=1;
-      obj = {_status_:_status_,status_check:status_check,num:snum}
-      res.render('notebookLent.ejs',obj);
+      pass=0;
+      client.close();
     });
-    client.close();
   });
 });
+
 
 
 router.post('/notebookLent_Cancel',function(req,res){
   MongoClient.connect(url,{useNewUrlParser:true}, function(err, client) {
     const db = client.db(dbName);
     const snum = parseInt(req.body.seat);
-    db.collection('seatNumber').find({}).toArray(function(err,result){
-        if(result[snum-1].status==0) {
+    db.collection('seatNumber').find({}).toArray(function(err,result){  
+      if(result[snum-1].status==0) {
         status_check=4;
+        cpass=1;
         obj = {_status_:_status_,status_check:status_check,num:snum}
+        //res.render('notebookLent.ejs',obj);
+      }else{
+        //for(var i=0;i<6;i++){
+          if(result[snum-1].id!=myid){
+            //console.log('fuck my id');
+            console.log('this is not my id !');
+            status_check=6;
+            cpass=1;
+            obj = {_status_:_status_,status_check:status_check,num:snum}
+          }
+        //}
+      }
+      if(cpass==1){
         res.render('notebookCancel.ejs',obj);
+        //console.log('이거 출력되면 시발');
+        console.log(`cpass : `+cpass);
       }
-    });
-    db.collection('seatNumber').updateMany({ number:snum  }, 
-      { $set: { status: 0 ,id: cancel,grade:0,class:0,num:0} },function(err,result){
-      if(err)console.log(err.message);
-    });
-    db.collection('seatNumber').find({}).toArray(function(err,result){
-      for(var i=0;i<6;i++){
-        _status_[i]=parseInt(result[i].status);
+      else if(cpass==0){
+        console.log(`cpass : `+cpass);
+        db.collection('seatNumber').updateMany({ number:snum }, 
+          { $set: { status: 0 ,id: cancel,grade:0,class:0,num:0} },function(err,result){
+          if(err)console.log(err.message);
+        });
+
+        db.collection('seatNumber').find({}).toArray(function(err,result){
+          console.log('여기는 된다 시발');
+          console.log(result);
+          for(var i=0;i<6;i++){
+            _status_[i]=parseInt(result[i].status);
+          }
+          status_check=2;
+          obj = {_status_:_status_,status_check:status_check,num:snum}
+          res.render('notebookCancel.ejs',obj);
+        });
       }
-      status_check=2;
-      obj = {_status_:_status_,status_check:status_check,num:snum}
-      res.render('notebookCancel.ejs',obj);
+      cpass=0;
+      client.close();
     });
-    client.close();
+      //console.log('cpass :'+cpass);
+    });
   });
-});
 
 
 module.exports = router;
