@@ -68,8 +68,8 @@ router.get('/login_lent', (req, res, next)=>{
   });
 });
 
-router.get('/logout', function(req, res){
-  delete req.session.displayName;
+router.get('/logout', (req, res, next)=>{
+  db.logout('/notebookcheck');
   res.redirect('/index');
 });
 
