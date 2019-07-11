@@ -53,11 +53,14 @@
         }
     </style>
     <script>
+        function moveMySeat(){
+            location.href = "http://localhost:3000/mySeat?UserId="+UserId;
+        }
     </script>
 </head>
 <body>
     <script>
-        var status = <%= status_check %>;
+        var status = status_check;
         if(status==1) alert(`선택되었습니다!`);
         if(status==3) alert(`이미 선택된 자리입니다!`);
         if(status==5) alert(`한명당 한자리만 선택가능합니다!`);
@@ -77,7 +80,7 @@
         <a class="nav-link" href="/Update">UPDATE</a>
         </li>
         <li class="nav-item">
-        <% var id = '이민준' %>
+        <% var id = session.UserName %>
         <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"><%= id %></a>
         </li>
     </ul>
@@ -87,7 +90,7 @@
             <ul class="list-group list-group-flush">
                 <li class="list-group-item"><a href="/notebookLent">노트북 대여 신청하기</a></li>
                 <li class="list-group-item"><a href="/notebookCancel">노트북 대여 신청 취소하기</a></li>
-                <li class="list-group-item"><a href="/mySeat?UserId=s193211">내가 신청한 자리</a></li>
+                <li class="list-group-item"><a href="/mySeat">내가 신청한 자리</a></li>
                 <li class="list-group-item"><a href="/Demerit">벌점 보기</a></li>
             </ul>
         </div>
@@ -106,7 +109,7 @@
                                     </div>
                                 </div>
                                 <label for="seat1"><div id = _status_1>
-                                        <% if(_status_[0]==1) { %>
+                                        <% if(session._status_[0]==1) { %>
                                             <img src="unvalid.png" class="rounded float-left" alt="" width="180px">
                                         <%}else{%>
                                             <img src="1.png" class="rounded float-left" alt="" width="180px">
@@ -121,7 +124,7 @@
                                     </div>
                                 </div>
                                 <label for="seat2"><div id = _status_2>
-                                        <% if(_status_[1]==1) { %>
+                                        <% if(session._status_[1]==1) { %>
                                             <img src="unvalid.png" class="rounded float-left" alt="" width="180px">
                                         <%}else{%>
                                             <img src="2.png" class="rounded float-left" alt="" width="180px">
@@ -136,7 +139,7 @@
                                     </div>
                                 </div>
                                 <label for="seat3"><div id = _status_3>                                
-                                        <% if(_status_[2]==1) { %>
+                                        <% if(session._status_[2]==1) { %>
                                             <img src="unvalid.png" class="rounded float-left" alt="" width="180px">
                                         <%}else{%>
                                             <img src="3.png" class="rounded float-left" alt="" width="180px">
@@ -153,7 +156,7 @@
                                     </div>
                                 </div>
                                 <label for="seat4"><div id = _status_4>                                
-                                        <% if(_status_[3]==1) { %>
+                                        <% if(session._status_[3]==1) { %>
                                             <img src="unvalid.png" class="rounded float-left" alt="" width="180px">
                                         <%}else{%>
                                             <img src="4.png" class="rounded float-left" alt="" width="180px">
@@ -168,7 +171,7 @@
                                     </div>
                                 </div>
                                 <label for="seat5"><div id = _status_5>  
-                                        <% if(_status_[4]==1) { %>
+                                        <% if(session._status_[4]==1) { %>
                                             <img src="unvalid.png" class="rounded float-left" alt="" width="180px">
                                         <%}else{%>
                                             <img src="5.png" class="rounded float-left" alt="" width="180px">
@@ -183,7 +186,7 @@
                                     </div>
                                 </div>
                                 <label for="seat6"><div id = _status_6>                                
-                                    <% if(_status_[5]==1) { %>
+                                    <% if(session._status_[5]==1) { %>
                                         <img src="unvalid.png" class="rounded float-left" alt="" width="180px">
                                     <%}else{%>
                                         <img src="6.png" class="rounded float-left" alt="" width="180px">
