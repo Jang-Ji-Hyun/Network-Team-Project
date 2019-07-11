@@ -72,10 +72,10 @@ router.get('/login_lent', (req, res, next)=>{
   });
 });
 
-router.get('/logout', (req, res, next)=>{
-  db.logout('/notebookcheck');
-  res.redirect('/index');
-});
+// router.get('/logout', (req, res, next)=>{
+//   db.logout('/notebookcheck');
+//   res.redirect('/index');
+// });
 
 
 router.get('/update', (req, res, next)=>{
