@@ -40,11 +40,12 @@ router.get('/giveDemerit',(req,res,next)=>{
 });
 
 router.get('/mySeat',(req,res,next)=>{
-  var UserId = res.query.UserId;
+  var UserId = req.session.UserId;
+  console.log(UserId);
   MongoClient.connect(function(err,db,client){
     MongoClient.getUserByUserId(UserId,(user)=>{
       db.collection('seatNumber').findOne({grade : user.Grade, class : user.Class, number : user.Number}, (err,result)=>{
-        //console.log(result);
+        
         name = myid;
         if(result==null){
           number = 0;
@@ -53,7 +54,7 @@ router.get('/mySeat',(req,res,next)=>{
           //console.log(result.number);
           number = result.number;
         }
-        sobj ={name:user.UserName,number:number};
+        sobj ={session:req.session,number:number};
         res.render('mySeat.ejs',sobj);
       });
     });
@@ -92,14 +93,11 @@ router.get('/notebookLent', (req, res, next)=>{
   });
 });
 
-
-
 router.get('/notebookCancel', (req, res, next)=>{
   MongoClient.connect(function(err,db, client) {
     db.collection('seatNumber').find({}).toArray(function(err,result){
       for(var i=0;i<6;i++){
         _status_[i]=parseInt(result[i].status);
-        //console.log(`${i+1}_status : `+_status_[i]);
       }
       status_check=0;
       obj = {_status_:_status_,status_check:status_check}

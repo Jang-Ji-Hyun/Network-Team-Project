@@ -67,7 +67,7 @@
         <a class="nav-link" href="/Update">UPDATE</a>
         </li>
         <li class="nav-item">
-        <% var id = name %>
+        <% var id = session.UserName %>
         <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"><%= id %></a>
         </li>
     </ul>
@@ -83,10 +83,10 @@
         </div>
         <div>
             <img src="Seat.png" alt="Seat.png" width="1000">
-            <% if(number==0) { %>
-                <h2 class="image blinking"><%=name %> 님의 좌석은 아직 선택되지 않았습니다!</h2>
+            <% if(session.number==0) { %>
+                <h2 class="image blinking"><%=id %> 님의 좌석은 아직 선택되지 않았습니다!</h2>
             <%}else{ %>
-                <h2 class="image blinking"><%=name %> 님의 선택 좌석은 <%= number%>입니다!</h2>
+                <h2 class="image blinking"><%=id %> 님의 선택 좌석은 <%=session.number%>입니다!</h2>
             <%}%>
         </div>
     </div>

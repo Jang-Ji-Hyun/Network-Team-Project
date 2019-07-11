@@ -47,18 +47,22 @@ router.get('/login_lent', (req, res, next)=>{
   var Password = req.query.UserPassword;
   
   mongoClient.connect((err,db,client)=>{
-    db.collection('User').find({UserId : Id, UserPassword : Password}).toArray((err, result)=>{
-      if(result.length != 1){
+    db.collection('User').find({UserId : Id, UserPassword : Password}).toArray((err, user)=>{
+      if(user.length != 1){
         res.render("login_lent",{pass : true});
       }else{
-        console.log('check');
         db.collection('seatNumber').find({}).toArray(function(err,result){
           for(var i=0;i<6;i++){
             _status_[i]=parseInt(result[i].status);
-            console.log(`${i+1}_status : `+_status_[i]);
           }
           var status_check=0;
-          var obj = {_status_:_status_,status_check:status_check}
+          
+          req.session.UserName = user[0].UserName;
+          req.session.UserId = user[0].UserId;
+          req.session._status_ = _status_;
+          req.session.status_check = status_check;
+
+          var obj = {session:req.session}
           res.render('notebookLent',obj);
         });
         //res.render("notebookLent")
